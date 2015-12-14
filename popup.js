@@ -19,9 +19,12 @@ function getCurrentTabInfo(callback) {
 function addItemToList(url, tabName, faviconUrl) {
 
   var savedList = document.getElementById('saved_list');
+  var newDiv = document.createElement('div');
   var itemName = tabName + ": " + url;
   var checkbox = '<input type = "checkbox" value = "' + url + '"/> ' + itemName + "<br>";
-  savedList.innerHTML += checkbox;
+  savedList.appendChild(newDiv);
+  newDiv.innerHTML += checkbox;
+  newDiv.id = url;
 /*  var savedList = document.getElementById('saved_list');
   var checkbox = document.createElement('input');
   checkbox.type = "checkbox";
@@ -42,6 +45,20 @@ function saveItemInStorage(url, tabName, faviconUrl) {
   });
 }
 
+function removeItemsFromList() {
+  var savedList = document.getElementById('saved_list');
+  checkboxes = document.getElementsByTagName('input');
+  for(var i = 0; i < checkboxes.length; i++) {
+    checkbox = checkboxes[i];
+    if(checkbox.checked) {
+      checkbox.checked = false;
+      url = checkbox.value;
+      div = document.getElementById(url);
+      savedList.removeChild(div);
+    }
+  }
+}
+
 // Gets the saved websites
 function getSavedWebsites() {
   // Fetch the websites
@@ -57,10 +74,15 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   addButton = document.getElementById('add');
-  addButton.addEventListener('click', function() {
+  addButton.addEventListener('click', function() {  // Add current listener
     getCurrentTabInfo(function(url, tabName, faviconUrl) {
       addItemToList(url, tabName, faviconUrl);
       saveItemInStorage(url, tabName, faviconUrl);
     });
+  });
+
+  removeButton = document.getElementById('remove'); // Remove websites listener
+  removeButton.addEventListener('click', function() {
+    removeItemsFromList();
   });
 });
