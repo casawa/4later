@@ -1,0 +1,14 @@
+{
+  "manifest_version": 2,
+  "name": "4later",
+  "description": "A chrome extension allowing someone to save a website for later.",
+  "version": "1.0",
+  "browser_action":  {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "activeTab",
+    "storage"
+  ]
+}
