@@ -28,8 +28,8 @@ function addItemToList(url, tabName, faviconUrl) {
 
   var savedList = document.getElementById('saved_list');
   var newDiv = document.createElement('div');
-  var itemName = tabName + ": " + url;
-  var checkbox = '<input type = "checkbox" value = "' + url + '"/> ' + itemName + "<br>";
+  var itemHTML = '<a href = "' + url + '"> ' + tabName + ' </a>';
+  var checkbox = '<input type = "checkbox" value = "' + url + '"/> ' + itemHTML + "<br>";
   savedList.appendChild(newDiv);
   newDiv.innerHTML += checkbox;
   newDiv.id = url;
@@ -72,15 +72,27 @@ function removeItemsFromList(urls) {
   }
 }
 
+// Displays in the list saved websites
+function displaySavedWebsites(urls) {
+  for(var i = 0; i < urls.length; i++) {
+    addItemToList(urls[i], urls[i], urls[i]);
+  }
+}
+
 // Gets the saved websites
 function getSavedWebsites() {
+
+  urls = [];
+  urls.push(localStorage.getItem("saved_url"));
+  return urls;
   // Fetch the websites
   // For all websites, do addItemToList?
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  //var urls = getSavedWebsites();
-  var urls = [];
+
+  var urls = getSavedWebsites();
+  displaySavedWebsites(urls);
 
   // Display current tab info
   getCurrentTabInfo(function(url, tabName, faviconUrl) {
